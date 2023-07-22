@@ -1,12 +1,14 @@
-use crate::KillPortSignalOptions;
+use std::io;
+use std::io::Error;
+use std::path::Path;
 
 use log::{debug, info, warn};
 use nix::sys::signal::{kill, Signal};
 use nix::unistd::Pid;
+
 use procfs::process::FDTarget;
-use std::io;
-use std::io::Error;
-use std::path::Path;
+
+use crate::KillPortSignalOptions;
 
 /// Attempts to kill processes listening on the specified `port`.
 ///

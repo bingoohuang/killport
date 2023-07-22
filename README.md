@@ -80,17 +80,20 @@ killport -s sigkill 8080
 
 ### Flags
 
--s, --signal
-    Specify a signal name to be sent. (e.g. sigkill)
+```shell
+Usage: killport [OPTIONS] <ports>...
 
--v, --verbose
-    Increase the verbosity level. Use multiple times for more detailed output.
+Arguments:
+  <ports>...  The list of port numbers to kill processes on
 
--h, --help
-    Display the help message and exit.
-
--V, --version
-    Display the version information and exit.
+Options:
+  -x, --execute       Execute the kill or only show the target processes
+  -s, --signal <SIG>  SIG is a signal name [default: sigterm] [possible values: sigkill, sigterm]
+  -v, --verbose...    More output per occurrence
+  -q, --quiet...      Less output per occurrence
+  -h, --help          Print help
+  -V, --version       Print version
+```
 
 ## Contributing
 

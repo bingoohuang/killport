@@ -1,29 +1,32 @@
-use crate::KillPortSignalOptions;
-use log::{debug, info};
 use std::{
     alloc::Layout,
     collections::HashSet,
     io::{Error, ErrorKind},
 };
+
+use log::{debug, info};
+
 use windows_sys::Win32::{
     Foundation::{
-        CloseHandle, GetLastError, ERROR_INSUFFICIENT_BUFFER, INVALID_HANDLE_VALUE, NO_ERROR,
+        CloseHandle, ERROR_INSUFFICIENT_BUFFER, GetLastError, INVALID_HANDLE_VALUE, NO_ERROR,
     },
+    Networking::WinSock::{ADDRESS_FAMILY, AF_INET, AF_INET6},
     NetworkManagement::IpHelper::{
         GetExtendedTcpTable, GetExtendedUdpTable, MIB_TCP6ROW_OWNER_MODULE,
         MIB_TCP6TABLE_OWNER_MODULE, MIB_TCPROW_OWNER_MODULE, MIB_TCPTABLE_OWNER_MODULE,
         MIB_UDP6ROW_OWNER_MODULE, MIB_UDP6TABLE_OWNER_MODULE, MIB_UDPROW_OWNER_MODULE,
         MIB_UDPTABLE_OWNER_MODULE, TCP_TABLE_OWNER_MODULE_ALL, UDP_TABLE_OWNER_MODULE,
     },
-    Networking::WinSock::{ADDRESS_FAMILY, AF_INET, AF_INET6},
     System::{
         Diagnostics::ToolHelp::{
             CreateToolhelp32Snapshot, Process32First, Process32Next, PROCESSENTRY32,
             TH32CS_SNAPPROCESS,
         },
-        Threading::{OpenProcess, TerminateProcess, PROCESS_TERMINATE},
+        Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess},
     },
 };
+
+use crate::KillPortSignalOptions;
 
 /// Attempts to kill processes listening on the specified `port`.
 ///
